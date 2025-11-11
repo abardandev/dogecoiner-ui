@@ -3,7 +3,7 @@
 
 @layer tailwind-base, primereact, tailwind-utilities;
 
-@import 'primereact/resources/themes/vela-orange/theme.css' layer(primereact);
+@import 'primereact/resources/themes/arya-orange/theme.css' layer(primereact);
 
 @layer tailwind-base {
   @tailwind base;
