@@ -2,7 +2,7 @@
 
 import { Button } from 'primereact/button'; 
 
-import { lineData as btcData } from './data/btc-w-data';
+//import { lineData as btcData } from './data/btc-w-data';
 import { lineData as ethData } from './data/eth-w-data';
 import { lineData as solData } from './data/sol-w-data';
 import { lineData as xrpData } from './data/xrp-w-data';
@@ -12,7 +12,10 @@ import { lineData as shibData } from './data/shib-w-data';
 import { Chart, AreaSeries, TimeScale, TimeScaleFitContentTrigger } 
   from "lightweight-charts-react-components";
 
-  const colors = {
+import { dogecoinerApi } from './api/dogecoiner-api';
+import { useEffect, useState } from 'react';
+
+const colors = {
   white: "#f0f0f0",
   black: "#080F25",
   red: "#ff6b6b",
@@ -29,9 +32,8 @@ import { Chart, AreaSeries, TimeScale, TimeScaleFitContentTrigger }
   orange100: "#CC5500",
 };
 
-  const chartCommonOptions = {
-    
-    height: 300,
+const chartCommonOptions = {
+  height: 300,
   autoSize: true,
   layout: {
     attributionLogo: false,
@@ -64,6 +66,25 @@ import { Chart, AreaSeries, TimeScale, TimeScaleFitContentTrigger }
 };
 
 export default function Home() {
+  const [btcData, setBtcData] = useState([]);
+
+  useEffect(() => {
+    const fetchBtcData = async () => {
+      await dogecoinerApi
+        .getKlineHistoryLineData('BTCUSDT', 'W')
+        .then(r => {
+          console.log(r.data);
+          setBtcData(r.data);
+        })
+        .catch(e => {
+          console.log(e.message);
+          setBtcData([]);
+        });
+    };
+    fetchBtcData();
+
+  }, []);
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-zinc-900">
       <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-3 px-3 bg-white dark:bg-stone-800 sm:items-start">
