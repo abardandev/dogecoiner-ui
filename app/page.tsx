@@ -5,7 +5,7 @@ export default function Home() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-zinc-900">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-3 px-3 bg-white dark:bg-stone-800 sm:items-start">
+      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-3 px-3 bg-white dark:bg-transparent sm:items-start">
         <div className="flex flex-col min-w-full items-center gap-6 text-center sm:items-start sm:text-left">
           <DChart title='BTC' symbol='BTCUSDT' interval='W'></DChart>
           <DChart title='ETH' symbol='ETHUSDT' interval='W'></DChart>

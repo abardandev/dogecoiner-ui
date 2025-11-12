@@ -3,7 +3,7 @@
 
 @layer tailwind-base, primereact, tailwind-utilities;
 
-@import 'primereact/resources/themes/arya-orange/theme.css' layer(primereact);
+@import 'primereact/resources/themes/lara-dark-amber/theme.css' layer(primereact);
 
 @layer tailwind-base {
   @tailwind base;
@@ -37,4 +37,8 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.p-card {
+  background: var(--color-stone-800);
 }
