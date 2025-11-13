@@ -42,3 +42,9 @@ body {
 .p-card {
   background: var(--color-stone-800);
 }
+
+.h-borders {
+  border-top: solid 1px whitesmoke;
+  padding-top: calc(var(--spacing) * 2);
+  padding-bottom: calc(var(--spacing) * 2);
+}

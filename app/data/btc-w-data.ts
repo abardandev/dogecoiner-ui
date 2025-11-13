@@ -1,3 +1,4 @@
+import { Transaction } from "../types/Transaction";
 import { toLineData } from "./_data-map";
 
 export let data: any[] = [
@@ -1471,3 +1472,26 @@ export let data: any[] = [
   ];
 
 export let lineData = toLineData(data);
+
+export const transactions: Transaction[] = [
+  {
+    symbol: "BTCUSDT",
+    transaction: "buy",
+    amount: 0.05,
+    price: 58331.2,
+    date: "2024-05-01"
+  },
+  {
+    symbol: "BTCUSDT",
+    transaction: "buy",
+    amount: 0.05,
+    price: 94560.2,
+    date: "2025-01-01"
+  },
+  {
+    symbol: "BTCUSDT",
+    transaction: "buy",
+    amount: 0.2,
+    price: 82371.6,
+    date: "2025-03-30"
+  }];

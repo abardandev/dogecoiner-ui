@@ -1371,4 +1371,4 @@ export let data: any[] = [
     }
   ];
 
-  export let lineData = toLineData(data, 10000);
+  export let lineData = toLineData(data, 1000);

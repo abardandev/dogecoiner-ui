@@ -25,5 +25,3 @@ export class ChartState {
     this.setError = setError;
   }
 }
-
-

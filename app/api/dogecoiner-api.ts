@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { ChartState } from '../types/ChartState';
 
 class DogeCoinerApi{
     baseUri: string;
@@ -12,9 +13,20 @@ class DogeCoinerApi{
         return axios.get(uri);
     }
 
-    getKlineHistoryLineData(symbol, interval) {
+    async getKlineHistoryLineData(symbol, interval, state: ChartState) {
         const uri = `${this.baseUri}/klinehistory/linedata/?symbol=${symbol}&interval=${interval}`;
-        return axios.get(uri);
+        return await axios.get(uri)
+            .then(r => {
+                // console.log(r.data);
+                state.setData(r.data);
+                state.setLoading(false);
+            })
+            .catch(e => {
+                // console.log(e.message);
+                state.setData([]);
+                state.setError(e.message);
+                state.setLoading(false);
+            });
     }
 }
 

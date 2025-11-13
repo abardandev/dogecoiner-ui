@@ -17,18 +17,9 @@ export class PortfolioData {
 
     let next = null;
     for (let pIdx = 0; pIdx < portfolio.length; pIdx++) {
-
-      // push portfolio items to final data set
-      const item = portfolio[pIdx];
-      this.data.push({
-        amount: item.amount,
-        price: item.price,
-        value: item.value,
-        time: item.time
-      });
-
-      // set the next portfolio item if it exists 
+      // set the current and next portfolio items
       // so we can find data between transactions dates
+      const item = portfolio[pIdx];
       const nextPIdx = pIdx + 1;
       next = (nextPIdx < portfolio.length) ? portfolio[nextPIdx] : null;
 
@@ -38,7 +29,7 @@ export class PortfolioData {
           || (next != null
             && o.time <= next.time)));
 
-      // push historical data as portfolio data
+      // push portfolio value based on historical data
       for (let sIdx = 0; sIdx < sub.length; sIdx++) {
         const hItem = sub[sIdx];
         this.data.push({
