@@ -34,8 +34,9 @@ import {
   priceFormatter_usd, 
   priceFormatter_usd_1k, 
   priceFormatter_usd_sm, 
-  priceFormatter_usd_xsm 
+  priceFormatter_usd_xsm,
 } from './types/ChartDisplay';
+import { dogecoinerSsrApi } from './api/ssr-api';
 
 export default function Home() {
   
@@ -74,24 +75,13 @@ export default function Home() {
   }
 
   const priceChart1kOptions = {
-    ...chartCommonOptions, 
+    ...chartCommonOptions,
     localization: {
       priceFormatter: priceFormatter_usd_1k
     } 
   }
-
+  
   useEffect(() => {
-      const btcData = new PortfolioData(btcTransactions, btcLineData).data;
-      btcPortfolioState.setData([ btcData ]);
-      btcPortfolioState.setLoading(false);
-
-      const ethData = new PortfolioData(ethTransactions, ethLineData).data;
-      ethPortfolioState.setData([ ethData ]);
-      ethPortfolioState.setLoading(false);
-
-      compState.setData([ btcData, ethData ]);
-      compState.setLoading(false);
-
       btcPriceState.setData(btcLineData);
       btcPriceState.setLoading(false);
 
@@ -113,6 +103,17 @@ export default function Home() {
       shibPriceState.setData(shibLineData);
       shibPriceState.setLoading(false);
 
+      const btcData = new PortfolioData(btcTransactions, btcLineData).data;
+      btcPortfolioState.setData([ btcData ]);
+      btcPortfolioState.setLoading(false);
+
+      const ethData = new PortfolioData(ethTransactions, ethLineData).data;
+      ethPortfolioState.setData([ ethData ]);
+      ethPortfolioState.setLoading(false);
+
+      compState.setData([ btcData, ethData ]);
+      compState.setLoading(false);
+
       // const fetchPriceData = async (symbol, interval, state) => {
       //   return await dogecoinerApi.getKlineHistoryLineData(symbol, interval, state);
       // };
@@ -124,6 +125,16 @@ export default function Home() {
       // fetchPriceData('ADAUSDT', 'W', adaPriceState);
       // fetchPriceData('DOGEUSDT', 'W', dogePriceState);
       // fetchPriceData('SHIBUSDT', 'W', shibPriceState);
+
+      // const getMajors = async () => {
+      //   await dogecoinerSsrApi.getMajors()
+      //   .then(o => 
+      //     console.log(o.data))
+      //   .catch(e => 
+      //     console.log(e.message));
+      //   }
+      // getMajors();
+
     }, []);
 
   const formatCurrency = (value) => {
@@ -164,20 +175,19 @@ export default function Home() {
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-zinc-900">
       <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-3 px-3 bg-white dark:bg-transparent sm:items-start">
         <div className="flex flex-col min-w-full items-center gap-6 text-center sm:items-start sm:text-left" style={{width: '100px'}}>
-          <Card title='BTC Portfolio' className="bg-stone-800" style={{ width: "100%" }}>
+          <Card title='BTC Portfolio' className="bg-stone-800 text-left" style={{ width: "100%" }}>
             
             <h1 className='h-borders mb-1'>Price Chart</h1>
             <DChart state={btcPriceState} chartOptions={priceChartOptions}></DChart>
             
             <h1 className='h-borders mb-1'>Portfolio Value</h1>
-            <DPortfolioChart state={btcPortfolioState} chartOptions={priceChart1kOptions}></DPortfolioChart>
+            <DPortfolioChart state={btcPortfolioState} chartOptions={priceChart1kOptions} multiScale={false}></DPortfolioChart>
             
             <h1 className='h-borders mb-1'>Transactions</h1>
             <DataTable 
               value={btcTransactions} 
               footerColumnGroup={btcFooterGroup} 
               scrollable 
-              className='mt-6'
               style={{ width: "100%" }} 
               tableStyle={{ minWidth: '33rem' }}>
               <Column field="date" header="Date"></Column>
@@ -189,13 +199,13 @@ export default function Home() {
             
           </Card>
           
-          <Card title='ETH Portfolio' className="bg-stone-800" style={{ width: "100%" }}>
+          <Card title='ETH Portfolio' className="bg-stone-800 text-left" style={{ width: "100%" }}>
 
             <h1 className='h-borders mb-1 font-semibold'>Price Chart</h1>
             <DChart state={ethPriceState} chartOptions={priceChartOptions}></DChart>
             
             <h1 className='h-borders mb-1 font-semibold'>Portfolio Value</h1>
-            <DPortfolioChart state={ethPortfolioState} chartOptions={priceChart1kOptions}></DPortfolioChart>
+            <DPortfolioChart state={ethPortfolioState} chartOptions={priceChart1kOptions} multiScale={false}></DPortfolioChart>
             
             <h1 className='h-borders mb-1 font-semibold'>Transactions</h1>
             <DataTable 
@@ -212,33 +222,32 @@ export default function Home() {
             </DataTable>
           </Card>
           
-          
-          <Card title='Compare Portfolio' className="bg-stone-800" style={{ width: "100%" }}>
+          <Card title='Compare Portfolio' className="bg-stone-800 text-left" style={{ width: "100%" }}>
             <h1 className='h-borders mb-1 font-semibold'>ETH vs BTC</h1>
-            <DPortfolioChart state={compState} chartOptions={priceChart1kOptions}></DPortfolioChart>
+            <DPortfolioChart state={compState} chartOptions={priceChart1kOptions} multiScale={false}></DPortfolioChart>
           </Card>
 
-          <Card title='SOL' className="bg-stone-800" style={{ width: "100%" }}>
+          <Card title='SOL' className="bg-stone-800 text-left" style={{ width: "100%" }}>
             <h1 className='h-borders mb-1 font-semibold'>Price Chart</h1>
             <DChart state={solPriceState} chartOptions={priceChartOptions}></DChart>
           </Card>
 
-          <Card title='XRP' className="bg-stone-800" style={{ width: "100%" }}>
+          <Card title='XRP' className="bg-stone-800 text-left" style={{ width: "100%" }}>
             <h1 className='h-borders mb-1 font-semibold'>Price Chart</h1>
             <DChart state={xrpPriceState} chartOptions={priceChartSmOptions}></DChart>
           </Card>
           
-          <Card title='ADA' className="bg-stone-800" style={{ width: "100%" }}>
+          <Card title='ADA' className="bg-stone-800 text-left" style={{ width: "100%" }}>
             <h1 className='h-borders mb-1 font-semibold'>Price Chart</h1>
             <DChart state={adaPriceState} chartOptions={priceChartSmOptions}></DChart>
           </Card>
 
-          <Card title='DOGE' className="bg-stone-800" style={{ width: "100%" }}>
+          <Card title='DOGE' className="bg-stone-800 text-left" style={{ width: "100%" }}>
             <h1 className='h-borders mb-1 font-semibold'>Price Chart</h1>
             <DChart state={dogePriceState} chartOptions={priceChartSmOptions}></DChart>
           </Card>
 
-          <Card title='1,000xSHIB' className="bg-stone-800" style={{ width: "100%" }}>
+          <Card title='1,000xSHIB' className="bg-stone-800 text-left" style={{ width: "100%" }}>
             <h1 className='h-borders mb-1 font-semibold'>Price Chart</h1>
             <DChart state={shibPriceState} chartOptions={priceChartXsmOptions}></DChart>
           </Card>

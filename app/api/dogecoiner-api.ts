@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { ChartState } from '../types/ChartState';
 
-class DogeCoinerApi{
-    baseUri: string;
+// this calls the dogecoiner-api served from its own domain
+class DogeCoinerApi {
+    baseUri: string | undefined;
 
     constructor() {
         this.baseUri = process.env.NEXT_PUBLIC_DOGECOINER_API;

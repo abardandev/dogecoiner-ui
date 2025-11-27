@@ -1,3 +1,5 @@
+'use client'
+
 import { AreaSeriesOptions, DeepPartial } from "lightweight-charts";
 
 export const colors = {
@@ -56,7 +58,7 @@ export const priceFormatter_usd_1k = (price) => {
 };
 
 export const chartCommonOptions = {
-  height: 300,
+  height: 200,
   autoSize: true,
   layout: {
     attributionLogo: true,
