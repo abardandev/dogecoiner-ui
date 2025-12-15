@@ -14,6 +14,8 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 This is a responsive React front end for creating and tracking portfolios.
 
+<img src="assets/portfolio-compare.png" height="450"/>
+
 This is also its own client/server stack using Next.js.
 
 ```mermaid
@@ -24,19 +26,19 @@ flowchart LR
     B <--> D[_dogecoiner-api.punksterinc.com_];
 ```
 
-This allows for
+Next.js allows for
 
 - improved API security 
 
     * the client only talks to the Next.js Node API simplifying CORS
-    * the Next.js Node server securely connects to the DogeCoiner API
+    * the Next.js Node server securely connects to the DogeCoiner API as server to server
 
 - smaller client payloads 
 - and optimized SSR features
   
     * Next.js basically works like an Asp.Net SSR Razor web app, but with the full benefits of SPA development
 
-Since it's a full client/server on its own, I've opted to deploy the front end to its own subdomain.
+Since React / Next.js is a full client/server on its own, I've opted to deploy the front end to its own subdomain.
 
 `https://dogecoiner.punksterinc.com`
 
