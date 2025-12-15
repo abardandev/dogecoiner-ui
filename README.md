@@ -51,6 +51,12 @@ Care is made to ensure the site is fully responsive across devices and form fact
 
 It uses the lightweight TradingView chart control for basic charting of crypto price data and simple portfolio data. This provides ability to pan, zoom, drag series, pixel perfect display and more.
 
+Charts have multiple templates for loading: skeleton, data loaded, no data / error.
+
+<img src="assets/template-skel.png" height="250" />
+<img src="assets/template-data.png" height="250" />
+<img src="assets/template-nodata.png" height="250" />
+
 Depending on the asset, price formats need to be customized.
 
 <img src="assets/custom-prices.png" height="250" />

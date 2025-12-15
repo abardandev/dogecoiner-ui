@@ -103,6 +103,18 @@ export default function Home() {
       shibPriceState.setData(shibLineData);
       shibPriceState.setLoading(false);
 
+      const fetchPriceData = async (symbol, interval, state) => {
+        return await dogecoinerApi.getKlineHistoryLineData(symbol, interval, state);
+      };
+      
+      // fetchPriceData('BTCUSDT', 'W', btcPriceState);
+      // fetchPriceData('ETHUSDT', 'W', ethPriceState);
+      // fetchPriceData('SOLUSDT', 'W', solPriceState);
+      // fetchPriceData('XRPUSDT', 'W', xrpPriceState);
+      // fetchPriceData('ADAUSDT', 'W', adaPriceState);
+      // fetchPriceData('DOGEUSDT', 'W', dogePriceState);
+      // fetchPriceData('SHIBUSDT', 'W', shibPriceState);
+
       const btcData = new PortfolioData(btcTransactions, btcLineData).data;
       btcPortfolioState.setData([ btcData ]);
       btcPortfolioState.setLoading(false);
@@ -114,17 +126,6 @@ export default function Home() {
       compState.setData([ btcData, ethData ]);
       compState.setLoading(false);
 
-      // const fetchPriceData = async (symbol, interval, state) => {
-      //   return await dogecoinerApi.getKlineHistoryLineData(symbol, interval, state);
-      // };
-      
-      // fetchPriceData('BTCUSDT', 'W', btcPriceState);
-      // fetchPriceData('ETHUSDT', 'W', ethPriceState);
-      // fetchPriceData('SOLUSDT', 'W', solPriceState);
-      // fetchPriceData('XRPUSDT', 'W', xrpPriceState);
-      // fetchPriceData('ADAUSDT', 'W', adaPriceState);
-      // fetchPriceData('DOGEUSDT', 'W', dogePriceState);
-      // fetchPriceData('SHIBUSDT', 'W', shibPriceState);
 
       // const getMajors = async () => {
       //   await dogecoinerSsrApi.getMajors()
