@@ -6,31 +6,55 @@ First, run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Overview
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This is a responsive React front end for creating and tracking portfolios.
 
-## Learn More
+This is also its own client/server stack using Next.js.
 
-To learn more about Next.js, take a look at the following resources:
+```mermaid
+flowchart LR
+    subgraph S1[_dogecoiner.punksterinc.com_]
+        A[React Client] <--> B[Next.js];
+    end
+    B <--> D[_dogecoiner-api.punksterinc.com_];
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This allows for
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- improved API security 
 
-## Deploy on Vercel
+    * the client only talks to the Next.js Node API simplifying CORS
+    * the Next.js Node server securely connects to the DogeCoiner API
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- smaller client payloads 
+- and optimized SSR features
+  
+    * Next.js basically works like an Asp.Net SSR Razor web app, but with the full benefits of SPA development
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Since it's a full client/server on its own, I've opted to deploy the front end to its own subdomain.
+
+`https://dogecoiner.punksterinc.com`
+
+## Features
+
+The UI has these features:
+
+Care is made to ensure the site is fully responsive across devices and form factors.
+![Responsive UI](assets/responsive-ui.png)
+
+It uses the lightweight TradingView chart control for basic charting of crypto price data and simple portfolio data. This provides ability to pan, zoom, drag series, pixel perfect display and more.
+
+Depending on the asset, price formats need to be customized.
+
+<img src="assets/custom-prices.png" height="250" />
+
+## Tech Design
+
+I use:
+- PrimeReact controls and tailwind for layout and styles
+- Axios for API calls. (I toggle code for API connectivity, relying more on dummy data until I build out more of the UI.)
