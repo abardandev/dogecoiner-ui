@@ -9,7 +9,7 @@ import { ButtonGroup } from 'primereact/buttongroup';
 import { Transaction } from '../types/Transaction';
 import { Badge } from 'primereact/badge';
 
-type TransactionTypeOption = 'Buy' | 'Sell' | 'Transfer In' | 'Transfer Out';
+type TransactionTypeOption = 'buy' | 'sell' | 'tin' | 'tout';
 
 interface DTransactionProps {
   initial?: Transaction;
@@ -23,7 +23,7 @@ export default function DTransaction({
   onCancel,
 }: DTransactionProps) {
   const [type, setType] = useState<TransactionTypeOption>(
-    (initial?.transaction as TransactionTypeOption) ?? 'Buy',
+    (initial?.transaction as TransactionTypeOption) ?? 'buy',
   );
   const [quantity, setQuantity] = useState<number>(initial?.amount ?? 0);
   const [price, setPrice] = useState<number>(initial?.price ?? 0);
@@ -60,14 +60,14 @@ export default function DTransaction({
 
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
         <div className="flex flex-col gap-1">
           <label className="text-sm text-color-secondary">Transaction</label>
           <div className="grid w-fit">
             <Badge className="w-31 !rounded-b-none justify-self-end" value="Transfer" severity="secondary" />
             <ButtonGroup>
                 {typeOptions.map((opt, index) => (
-                    <Button key={opt.key} className={ index > 0 ? "!rounded-t-none" : ""} label={opt.label} value={opt.key} onChange={(e) => setType(e.value)} />
+                    <Button key={opt.key} className={ index > 0 ? "!rounded-t-none" : ""} label={opt.label} value={opt.key} onChange={(e) => setType(opt.key as TransactionTypeOption)} />
                 ))}
             </ButtonGroup>
           </div>

@@ -112,7 +112,6 @@ export default function MainLayout({ children }) {
                   icon={item.icon}
                   text
                   rounded
-                  severity="primary"
                   aria-label={item.label}
                   className="w-10 h-10"
                   style={{ color: 'var(--primary-color)' }}
@@ -133,7 +132,6 @@ export default function MainLayout({ children }) {
         >
           <Button
             icon={sidebarCollapsed ? 'pi pi-angle-right' : 'pi pi-angle-left'}
-            severity="primary"
             className="hidden lg:flex fixed top-[3rem] -translate-x-1/2 z-50 h-6 !w-6 items-center justify-center rounded-md border border-surface-500/20 bg-surface-card/70 backdrop-blur shadow-3 hover:bg-surface-card/80"
             aria-label="Toggle menu"
             onClick={() => setSidebarCollapsed((v) => !v)}

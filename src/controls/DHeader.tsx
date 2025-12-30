@@ -47,6 +47,6 @@ export default function DHeader({ isDesktop, menuItems }) {
             }
             className="border-none bg-surface-card px-4"
         />
-        </header>
+    </header>
     );
 }
