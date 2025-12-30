@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // this calls the local server api
-class DogeCoinerSsrApi {
+class DogeCoinerClientApi {
     constructor() {
     }
 
@@ -11,4 +11,4 @@ class DogeCoinerSsrApi {
     }
 }
 
-export const dogecoinerSsrApi = new DogeCoinerSsrApi();
+export const dogecoinerClientApi = new DogeCoinerClientApi();

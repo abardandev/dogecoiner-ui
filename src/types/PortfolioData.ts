@@ -35,6 +35,7 @@ export class PortfolioData {
         this.data.push({
           amount: item.amount,
           price: hItem.value,
+          paid: item.paid,
           value: item.amount * hItem.value,
           time: hItem.time
         });
@@ -52,7 +53,8 @@ export class PortfolioData {
       portfolio.push({
         amount: last.amount + item.amount,
         price: item.price,
-        value: last.value + (item.amount * item.price),
+        paid: last.paid + (item.amount * item.price),
+        value: 0,
         time: item.date
       });
 

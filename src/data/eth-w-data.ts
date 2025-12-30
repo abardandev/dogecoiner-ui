@@ -1,4 +1,4 @@
-import { Transaction } from "../types/Transaction";
+import { Transaction } from "../../src/types/Transaction";
 import { toLineData } from "./_data-map";
 
 export let data: any[] = [

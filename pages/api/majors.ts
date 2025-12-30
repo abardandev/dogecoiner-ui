@@ -1,4 +1,4 @@
-import { gApi } from "@/app/api/google-sheets-api";
+import { gApi } from "@/src/api/google-sheets-api";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(

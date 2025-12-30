@@ -4,6 +4,7 @@
 @layer tailwind-base, primereact, tailwind-utilities;
 
 @import 'primereact/resources/themes/lara-dark-amber/theme.css' layer(primereact);
+@import 'primeicons/primeicons.css' layer(primereact);
 
 @layer tailwind-base {
   @tailwind base;
