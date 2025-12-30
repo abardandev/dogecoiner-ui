@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { PanelMenu } from 'primereact/panelmenu';
 import { Sidebar } from 'primereact/sidebar';
 import { Button } from 'primereact/button';
@@ -53,31 +54,43 @@ export default function MainLayout({ children }) {
     return () => window.removeEventListener('scroll', toggleScrollTop);
   }, []);
 
+  const menuItemLinkTemplate = 
+    (item, options) => (
+      <Link href={item.url} className={options.className} onClick={options.onClick}>
+        <span className={options.iconClassName} />
+        <span className={options.labelClassName}>{item.label}</span>
+      </Link>
+    );
+
   const menuItems: MenuItem[] = useMemo(
     () => [
       {
         id: 'dashboard',
         label: 'Dashboard',
         icon: 'pi pi-chart-line',
-        url: '/'
+        url: '/',
+        template: menuItemLinkTemplate,
       },
       {
         id: 'portfolios',
         label: 'Portfolios',
         icon: 'pi pi-briefcase',
-        url: '/portfolios'
+        url: '/portfolios',
+        template: menuItemLinkTemplate,
       },
       {
         id: 'game',
         label: 'Woof',
         icon: 'pi pi-gift',
         url: '/game',
+        template: menuItemLinkTemplate,
       },
       {
         id: 'support',
         label: 'Support',
         icon: 'pi pi-info-circle',
         url: '/support',
+        template: menuItemLinkTemplate,
       },
     ],
     [scrollToSection],
@@ -107,18 +120,18 @@ export default function MainLayout({ children }) {
           {sidebarCollapsed ? (
             <div className="flex flex-col items-center gap-2">
               {menuItems.map((item) => (
-                <Button
-                  key={item.id}
-                  icon={item.icon}
-                  text
-                  rounded
-                  aria-label={item.label}
-                  className="w-10 h-10"
-                  style={{ color: 'var(--primary-color)' }}
-                  onClick={() => router.push(item.url)}
-                  tooltip={item.label}
-                  tooltipOptions={{ position: 'right' }}
-                />
+                <Link key={item.id} href={item.url}>
+                  <Button
+                    icon={item.icon}
+                    text
+                    rounded
+                    aria-label={item.label}
+                    className="w-10 h-10"
+                    style={{ color: 'var(--primary-color)' }}
+                    tooltip={item.label}
+                    tooltipOptions={{ position: 'right' }}
+                  />
+                </Link>
               ))}
             </div>
           ) : (
@@ -147,24 +160,25 @@ export default function MainLayout({ children }) {
           <div className="flex-1 overflow-x-auto">
             <div className="flex w-max items-center gap-1 pr-2">
               {menuItems.map((item) => (
-                <Button
-                  key={item.id}
-                  icon={item.icon}
-                  label={item.label}
-                  iconPos="top"
-                  size="small"
-                  text
-                  rounded
-                  severity="secondary"
-                  aria-label={item.label}
-                  pt={{
-                    root: { className: 'items-center justify-center text-center' },
-                    icon: { className: 'text-lg !m-0' },
-                    label: { className: 'text-[10px] leading-none !m-0 text-center mt-1' },
-                  }}
-                  className="flex-none w-20 h-auto py-2"
-                  onClick={() => router.push(item.url)}
-                />
+                <Link key={item.id} href={item.url}>
+                  <Button
+                    key={item.id}
+                    icon={item.icon}
+                    label={item.label}
+                    iconPos="top"
+                    size="small"
+                    text
+                    rounded
+                    severity="secondary"
+                    aria-label={item.label}
+                    pt={{
+                        root: { className: 'items-center justify-center text-center' },
+                        icon: { className: 'text-lg !m-0' },
+                        label: { className: 'text-[10px] leading-none !m-0 text-center mt-1' },
+                    }}
+                    className="flex-none w-20 h-auto py-2"
+                  />
+                </Link>
               ))}
             </div>
           </div>
