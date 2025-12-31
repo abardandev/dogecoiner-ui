@@ -4,6 +4,7 @@ import "./globals.css";
 import { PrimeReactProvider } from "primereact/api";
 import MainLayout from "@/src/controls/MainLayout";
 import QueryProvider from "@/src/providers/QueryProvider";
+import SessionProvider from "@/src/providers/SessionProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -49,11 +50,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <QueryProvider>
-          <PrimeReactProvider value={value}>
-            <MainLayout children={children} />
-          </PrimeReactProvider>
-        </QueryProvider>
+        <SessionProvider>
+          <QueryProvider>
+            <PrimeReactProvider value={value}>
+              <MainLayout children={children} />
+            </PrimeReactProvider>
+          </QueryProvider>
+        </SessionProvider>
       </body>
     </html>
   );

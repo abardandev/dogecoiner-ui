@@ -21,14 +21,16 @@ class DogeCoinerApiClient {
         });
     }
 
-    async getKlineHistory(symbol, interval) {
+    async getKlineHistory(symbol, interval, sessionToken?: string) {
         const uri = `${this.baseUri}/klinehistory/?symbol=${symbol}&interval=${interval}`;
-        return await this.axiosInstance.get(uri);
+        const headers = sessionToken ? { Authorization: `Bearer ${sessionToken}` } : {};
+        return await this.axiosInstance.get(uri, { headers });
     }
 
-    async getKlineHistoryLineData(symbol, interval) {
+    async getKlineHistoryLineData(symbol, interval, sessionToken?: string) {
         const uri = `${this.baseUri}/klinehistory/linedata/?symbol=${symbol}&interval=${interval}`;
-        return await this.axiosInstance.get(uri);
+        const headers = sessionToken ? { Authorization: `Bearer ${sessionToken}` } : {};
+        return await this.axiosInstance.get(uri, { headers });
     }
 }
 

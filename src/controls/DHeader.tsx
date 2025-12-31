@@ -1,6 +1,7 @@
 import { Menubar } from "primereact/menubar";
 import Link from 'next/link';
 import Image from 'next/image';
+import AuthButton from './AuthButton';
 
 export default function DHeader({ isDesktop, menuItems }) {
     return (
@@ -35,14 +36,7 @@ export default function DHeader({ isDesktop, menuItems }) {
             }
             end={
             <div className="flex items-center gap-2">
-                {/* <Button
-                    icon="pi pi-bars"
-                    rounded
-                    text
-                    className="hidden"
-                    aria-label="Open menu"
-                    onClick={() => setSidebarVisible(true)}
-                /> */}
+                <AuthButton />
             </div>
             }
             className="border-none bg-surface-card px-4"

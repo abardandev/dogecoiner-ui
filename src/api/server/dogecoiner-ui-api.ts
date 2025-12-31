@@ -3,6 +3,14 @@ import 'server-only';
 import { Elysia, t } from 'elysia';
 import { dogecoinerApiClient } from '@/src/api/server/dogecoiner-api-client';
 import { gApiClient } from '@/src/api/server/google-sheets-api-client';
+import { auth } from '@/src/auth';
+
+// Helper to get Google ID token from session
+async function getIdToken(): Promise<string | undefined> {
+  const session = await auth();
+  if (!session?.idToken) return undefined;
+  return session.idToken as string;
+}
 
 /**
  * Elysia API server for DogeCoiner
@@ -24,9 +32,11 @@ export const dogeCoinerUiApi = new Elysia({ prefix: '/api' })
     '/klinehistory',
     async ({ query }) => {
       try {
+        const idToken = await getIdToken();
         const result = await dogecoinerApiClient.getKlineHistory(
           query.symbol,
-          query.interval
+          query.interval,
+          idToken
         );
         return result.data;
       } catch (error: any) {
@@ -52,9 +62,11 @@ export const dogeCoinerUiApi = new Elysia({ prefix: '/api' })
     '/klinehistory/linedata',
     async ({ query }) => {
       try {
+        const idToken = await getIdToken();
         const result = await dogecoinerApiClient.getKlineHistoryLineData(
           query.symbol,
-          query.interval
+          query.interval,
+          idToken
         );
         return result.data;
       } catch (error: any) {
