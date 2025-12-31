@@ -23,7 +23,7 @@ import { lineData as adaLineData } from '@data/ada-w-data';
 import { lineData as dogeLineData } from '@data/doge-w-data';
 import { lineData as shibLineData } from '@data/shib-w-data';
 import { PortfolioData } from '../src/types/PortfolioData';
-import { dogecoinerApi } from '../src/api/dogecoiner-api';
+import { dogecoinerApiClient } from '../src/api/server/dogecoiner-api-client';
 import {
   chartCommonOptions,
   priceFormatter_usd_1k,

@@ -1,3 +1,5 @@
+import 'server-only';
+
 import path from 'node:path';
 import process from 'node:process';
 import { google } from 'googleapis';
@@ -7,7 +9,7 @@ const SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly'];
 const CRED_PATH = path.join(process.cwd(), 'credentials.json');
 
 // keeps calls to google sheets on the server side
-class GoogleSheetsApi {
+class GoogleSheetsApiClient {
     sheets;
     
     constructor() {
@@ -26,4 +28,4 @@ class GoogleSheetsApi {
     }
 }
 
-export const gApi = new GoogleSheetsApi();
+export const gApiClient = new GoogleSheetsApiClient();

@@ -23,7 +23,7 @@ import { lineData as adaLineData } from '@data/ada-w-data';
 import { lineData as dogeLineData } from '@data/doge-w-data';
 import { lineData as shibLineData } from '@data/shib-w-data';
 import { PortfolioData } from '@/src/types/PortfolioData';
-import { dogecoinerApi } from '@/src/api/dogecoiner-api';
+import { apiClient } from '@/src/api/client/dogecoiner-ui-api-client';
 import {
   chartCommonOptions,
   priceFormatter_usd,
@@ -80,7 +80,7 @@ const btcPriceState = new ChartState();
 
   useEffect(() => {
     const fetchPriceData = async (symbol, interval, state) => {
-      return await dogecoinerApi.getKlineHistoryLineData(
+      return await apiClient.getKlineHistoryLineData(
         symbol,
         interval,
         state,
