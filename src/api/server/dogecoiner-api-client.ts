@@ -32,6 +32,12 @@ class DogeCoinerApiClient {
         const headers = sessionToken ? { Authorization: `Bearer ${sessionToken}` } : {};
         return await this.axiosInstance.get(uri, { headers });
     }
+
+    async getUserInfo(sessionToken?: string) {
+        const uri = `${this.baseUri}/api/secureexample/user-info`;
+        const headers = sessionToken ? { Authorization: `Bearer ${sessionToken}` } : {};
+        return await this.axiosInstance.get(uri, { headers });
+    }
 }
 
 export const dogecoinerApiClient = new DogeCoinerApiClient();

@@ -9,9 +9,9 @@ export default function AuthButton() {
 
   useEffect(() => {
     if (session) {
-      console.log('Session data:', JSON.stringify(session, null, 2))
+      console.log('logged in');
     }
-  }, [session])
+  }, [session]);
 
   if (status === 'loading') {
     return <Button label="Loading..." disabled size="small" />

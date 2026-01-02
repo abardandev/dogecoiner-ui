@@ -87,6 +87,10 @@ const btcPriceState = new ChartState();
       );
     };
 
+    const fetchUserInfo = async () => await apiClient.getUserInfo();
+
+    fetchUserInfo();
+
     fetchPriceData('BTCUSDT', 'W', btcPriceState);
     fetchPriceData('ETHUSDT', 'W', ethPriceState);
     fetchPriceData('SOLUSDT', 'W', solPriceState);

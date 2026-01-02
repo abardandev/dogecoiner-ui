@@ -75,6 +75,13 @@ class DogeCoinerUiApiClient {
 
     return { data: transformedData };
   }
+
+  async getUserInfo() {
+    const {data, error} = await this.client.api['user-info'].get();
+
+    console.log(data);
+    console.log(error);
+  }
 }
 
 export const apiClient = new DogeCoinerUiApiClient();

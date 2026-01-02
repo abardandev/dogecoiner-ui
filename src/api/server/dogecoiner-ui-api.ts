@@ -3,13 +3,13 @@ import 'server-only';
 import { Elysia, t } from 'elysia';
 import { dogecoinerApiClient } from '@/src/api/server/dogecoiner-api-client';
 import { gApiClient } from '@/src/api/server/google-sheets-api-client';
-import { auth } from '@/src/auth';
+import { cookies } from 'next/headers';
 
-// Helper to get Google ID token from session
-async function getIdToken(): Promise<string | undefined> {
-  const session = await auth();
-  if (!session?.idToken) return undefined;
-  return session.idToken as string;
+// Helper to get encrypted session token (JWE) from cookies
+async function getSessionToken(): Promise<string | undefined> {
+  const cookieStore = await cookies();
+  const sessionToken = cookieStore.get(process.env.SESSION_COOKIE_NAME);
+  return sessionToken?.value;
 }
 
 /**
@@ -32,11 +32,11 @@ export const dogeCoinerUiApi = new Elysia({ prefix: '/api' })
     '/klinehistory',
     async ({ query }) => {
       try {
-        const idToken = await getIdToken();
+        const sessionToken = await getSessionToken();
         const result = await dogecoinerApiClient.getKlineHistory(
           query.symbol,
           query.interval,
-          idToken
+          sessionToken
         );
         return result.data;
       } catch (error: any) {
@@ -62,11 +62,11 @@ export const dogeCoinerUiApi = new Elysia({ prefix: '/api' })
     '/klinehistory/linedata',
     async ({ query }) => {
       try {
-        const idToken = await getIdToken();
+        const sessionToken = await getSessionToken();
         const result = await dogecoinerApiClient.getKlineHistoryLineData(
           query.symbol,
           query.interval,
-          idToken
+          sessionToken
         );
         return result.data;
       } catch (error: any) {
@@ -84,6 +84,22 @@ export const dogeCoinerUiApi = new Elysia({ prefix: '/api' })
           examples: ['1h', '4h', '1d']
         }),
       }),
+    }
+  )
+  
+  // GET /api/user-info - Fetch user info from sesion
+  .get(
+    '/user-info',
+    async () => {
+      try {
+        const sessionToken = await getSessionToken();
+        const result = await dogecoinerApiClient.getUserInfo(sessionToken);
+        
+        return result.data;
+      }
+      catch (error: any) {
+        throw new Error(error.message || 'Failed to fetch user info');
+      }
     }
   );
 

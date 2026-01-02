@@ -9,23 +9,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   callbacks: {
-    async jwt({ token, user, account }) {
-      // Store the Google ID token on sign in
-      if (account?.id_token) {
-        token.idToken = account.id_token
-      }
+    async jwt({ token, user }) {
+      // Add user ID to token on sign in
       if (user) {
         token.userId = user.id
       }
       return token
     },
     async session({ session, token }) {
-      // Add user ID and Google ID token to session
+      // Add user ID to session
       if (session.user) {
         session.user.id = token.userId as string
       }
-      // Pass the Google ID token to the session
-      session.idToken = token.idToken as string
       return session
     },
   },
