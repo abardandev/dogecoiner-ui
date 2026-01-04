@@ -100,6 +100,7 @@ export default function MainLayout({ children }) {
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900 text-color flex flex-col">
       <DHeader isDesktop={isDesktop} menuItems={menuItems} />
 
+      {/* mobile sidebar - appears when Menu is clicked */}
       <Sidebar
         visible={sidebarVisible}
         onHide={() => setSidebarVisible(false)}
@@ -112,6 +113,8 @@ export default function MainLayout({ children }) {
       </Sidebar>
 
       <div className="flex flex-1 flex-col lg:flex-row">
+
+        {/* main menu - desktop view */}
         <aside
           className={`relative hidden shrink-0 border-surface-500/20 py-6 transition-all duration-200 lg:sticky lg:top-0 lg:h-full lg:overflow-y-auto lg:block ${
             sidebarCollapsed ? 'w-20 px-2' : 'w-72 px-4'
@@ -139,6 +142,7 @@ export default function MainLayout({ children }) {
           )}
         </aside>
 
+        {/* collapse/expand menu button */}
         <aside
           className="relative hidden lg:block lg:sticky lg:top-0 lg:w-0 lg:h-full transition-all duration-200"
           style={{ left: sidebarCollapsed ? '5rem' : '18rem' }}

@@ -5,11 +5,11 @@ import AuthButton from './AuthButton';
 
 export default function DHeader({ isDesktop, menuItems }) {
     return (
-    <header className="top-0 z-10 shadow-2 block">
+    <header className="z-10">
         <Menubar 
             pt={{ 
-              root: { className:"!rounded-none h-17" }, 
-              menu: {className:"!border-0"}
+              root: { className:"!rounded-none h-17 flex" }, 
+              menu: {className:"!border-0 grow"}
             }}
             model={isDesktop ? menuItems : []}
             start={
@@ -35,7 +35,7 @@ export default function DHeader({ isDesktop, menuItems }) {
             </Link>
             }
             end={
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 justify-end">
                 <AuthButton />
             </div>
             }

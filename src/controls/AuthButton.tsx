@@ -1,53 +1,68 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useRef } from 'react'
 import { useSession, signIn, signOut } from 'next-auth/react'
 import { Button } from 'primereact/button'
+import { Menu } from 'primereact/menu'
+import type { MenuItem } from 'primereact/menuitem'
 
 export default function AuthButton() {
   const { data: session, status } = useSession()
-
-  useEffect(() => {
-    if (session) {
-      console.log('logged in');
-    }
-  }, [session]);
+  const menuRef = useRef<Menu>(null)
 
   if (status === 'loading') {
     return <Button label="Loading..." disabled size="small" />
   }
 
   if (session) {
+    const menuItems: MenuItem[] = [
+      {
+        template: () => (
+          <div className="px-4 py-3 border-b border-gray-200">
+            <div className="font-semibold text-white-900">
+              {session.user?.name || session.user?.email}
+            </div>
+            {session.user?.email && session.user?.name && (
+              <div className="text-sm text-gray-400">
+                {session.user.email}
+              </div>
+            )}
+          </div>
+        )
+      },
+      {
+        label: 'Sign Out',
+        icon: 'pi pi-sign-out',
+        command: () => signOut()
+      }
+    ]
+
     return (
-      <div className="flex items-center gap-2">
-        <span className="text-sm hidden md:inline">
-          {session.user?.name || session.user?.email}
-        </span>
-        {session.user?.image && (
-          <img
-            src={session.user.image}
-            alt={session.user.name || 'User'}
-            className="w-8 h-8 rounded-full"
-          />
-        )}
+      <>
+        <Menu model={menuItems} popup ref={menuRef} />
         <Button
-          label="Sign Out"
-          icon="pi pi-sign-out"
-          onClick={() => signOut()}
-          size="small"
-          severity="secondary"
+          onClick={(e) => menuRef.current?.toggle(e)}
+          className="p-0"
           text
-        />
-      </div>
+          rounded
+        >
+          {session.user?.image && (
+            <img
+              src={session.user.image}
+              alt={session.user.name || 'User'}
+              className="w-8 h-8 rounded-full cursor-pointer hover:opacity-80 transition-opacity"
+            />
+          )}
+        </Button>
+      </>
     )
   }
 
   return (
     <Button
-      label="Sign In with Google"
+      label="Sign In"
       icon="pi pi-google"
       onClick={() => signIn('google')}
-      size="small"
     />
   )
 }

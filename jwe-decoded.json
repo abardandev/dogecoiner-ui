@@ -1,0 +1,14 @@
+{
+  "name": "User Name",
+  "email": "user@email.com",
+  "picture": "https://lh3.googleusercontent.com/a/ACg8ocLKTtjfItgylP-fW__I3IIAMuMD-Oz0UU4hYer1usof9Fgs0-1_9A=s96-c",
+  "sub": "3811fce3-ecf1-4eb5-a229-a499a48ac03a",
+  "providerSub": "118410606829981319653",
+  "firstName": "User",
+  "lastName": "Name",
+  "provider": "google",
+  "providerAccountId": "118410606829981319653",
+  "iat": 1767474374,
+  "exp": 1770066374,
+  "jti": "34a90b11-041a-410c-8882-5f83b6067126"
+}
