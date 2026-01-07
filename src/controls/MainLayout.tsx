@@ -8,8 +8,13 @@ import { Sidebar } from 'primereact/sidebar';
 import { Button } from 'primereact/button';
 import { type MenuItem } from 'primereact/menuitem';
 import DHeader from '@/src/controls/DHeader';
+import { usePortfolio } from '@/src/context/PortfolioContext';
+import { Tooltip } from 'primereact/tooltip';
+import AddPortfolios from './AddPortfolio';
+import AddPortfolio from './AddPortfolio';
 
 export default function MainLayout({ children }) {
+  const { portfolios } = usePortfolio();
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
@@ -64,34 +69,27 @@ export default function MainLayout({ children }) {
 
   const menuItems: MenuItem[] = useMemo(
     () => [
-      {
-        id: 'dashboard',
-        label: 'Dashboard',
-        icon: 'pi pi-chart-line',
-        url: '/',
-        template: menuItemLinkTemplate,
-      },
+      // {
+      //   id: 'dashboard',
+      //   label: 'Dashboard',
+      //   icon: 'pi pi-chart-line',
+      //   url: '/',
+      //   template: menuItemLinkTemplate,
+      // },
       {
         id: 'portfolios',
         label: 'Portfolios',
         icon: 'pi pi-briefcase',
-        url: '/portfolios',
+        url: '/',
         template: menuItemLinkTemplate,
       },
-      {
-        id: 'game',
-        label: 'Woof',
-        icon: 'pi pi-gift',
-        url: '/game',
-        template: menuItemLinkTemplate,
-      },
-      {
-        id: 'support',
-        label: 'Support',
-        icon: 'pi pi-info-circle',
-        url: '/support',
-        template: menuItemLinkTemplate,
-      },
+      // {
+      //   id: 'support',
+      //   label: 'Support',
+      //   icon: 'pi pi-info-circle',
+      //   url: '/support',
+      //   template: menuItemLinkTemplate,
+      // },
     ],
     [scrollToSection],
   );
@@ -114,7 +112,7 @@ export default function MainLayout({ children }) {
 
       <div className="flex flex-1 flex-col lg:flex-row">
 
-        {/* main menu - desktop view */}
+        {/* portfolio sidebar - desktop view */}
         <aside
           className={`relative hidden shrink-0 border-surface-500/20 py-6 transition-all duration-200 lg:sticky lg:top-0 lg:h-full lg:overflow-y-auto lg:block ${
             sidebarCollapsed ? 'w-20 px-2' : 'w-72 px-4'
@@ -122,23 +120,64 @@ export default function MainLayout({ children }) {
         >
           {sidebarCollapsed ? (
             <div className="flex flex-col items-center gap-2">
-              {menuItems.map((item) => (
-                <Link key={item.id} href={item.url}>
-                  <Button
-                    icon={item.icon}
-                    text
-                    rounded
-                    aria-label={item.label}
-                    className="w-10 h-10"
-                    style={{ color: 'var(--primary-color)' }}
-                    tooltip={item.label}
-                    tooltipOptions={{ position: 'right' }}
-                  />
-                </Link>
+              {portfolios.map((portfolio) => (
+                <>
+                  <Link key={portfolio.portfolioId} href={`/portfolio/${portfolio.portfolioId}`}>
+                    <Tooltip target={`.pid-tooltip-${portfolio.portfolioId}`}>
+                      <div className="ml-2 flex flex-col">
+                        <p>{portfolio.portfolioName}</p>
+                        <p>{portfolio.portfolioValue}</p>
+                      </div>
+                    </Tooltip>
+                    <Button
+                      icon="pi pi-briefcase"
+                      text
+                      rounded
+                      aria-label={portfolio.portfolioName}
+                      className={"w-10 h-10 " + `pid-tooltip-${portfolio.portfolioId}`}
+                      style={{ color: 'var(--primary-color)' }}
+                      tooltipOptions={{ position:"right" }}
+                    />
+                  </Link>
+                </>
               ))}
+                <Tooltip target=".portfolio-add" event="focus" autoHide={false} position="right">
+                  <AddPortfolio />
+                </Tooltip>
+                <Button
+                  icon="pi pi-plus"
+                  text
+                  rounded
+                  aria-label="add portfolio"
+                  className="w-10 h-10 portfolio-add"
+                  style={{ color: 'var(--primary-color)' }}
+                />
             </div>
           ) : (
-            <PanelMenu model={menuItems} className="w-full" />
+            <div className="flex flex-col gap-2">
+              <h3 className="text-sm font-semibold text-primary-100 px-3 mb-2">Portfolios</h3>
+              {portfolios.length === 0 ? (
+                <div className="px-3 py-4 text-center text-sm text-primary-300">
+                  <AddPortfolios className="xs:col-span-1 sm:col-span-2" />
+                </div>
+              ) : (
+                <>
+                { portfolios.map((portfolio) => (
+                  <Link key={portfolio.portfolioId} href={`/portfolio/${portfolio.portfolioId}`}>
+                    <Button
+                      icon="pi pi-briefcase"
+                      className="w-full justify-start" severity='secondary'>
+                      <div className="ml-2 flex flex-col">
+                        <p>{portfolio.portfolioName}</p>
+                        <p>{portfolio.portfolioValue}</p>
+                      </div>
+                    </Button>
+                  </Link>
+                )) }
+                <AddPortfolios className="xs:col-span-1 sm:col-span-2" />
+                </>
+              )}
+            </div>
           )}
         </aside>
 

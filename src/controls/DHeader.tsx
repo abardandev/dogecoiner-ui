@@ -11,7 +11,7 @@ export default function DHeader({ isDesktop, menuItems }) {
               root: { className:"!rounded-none h-17 flex" }, 
               menu: {className:"!border-0 grow"}
             }}
-            model={isDesktop ? menuItems : []}
+            // model={isDesktop ? menuItems : []}
             start={
             <Link href="/" aria-label="Go to home">
                 <div

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Dropdown } from 'primereact/dropdown';
 import { InputNumber } from 'primereact/inputnumber';
+import { InputText } from 'primereact/inputtext';
 import { Calendar } from 'primereact/calendar';
 import { Button } from 'primereact/button';
 import { ButtonGroup } from 'primereact/buttongroup';
@@ -22,6 +23,7 @@ export default function DTransaction({
   onSave,
   onCancel,
 }: DTransactionProps) {
+  const [symbol, setSymbol] = useState<string>(initial?.symbol ?? '');
   const [type, setType] = useState<TransactionTypeOption>(
     (initial?.transaction as TransactionTypeOption) ?? 'buy',
   );
@@ -39,12 +41,12 @@ export default function DTransaction({
   ];
 
   const handleSave = () => {
-    if (!date) {
+    if (!date || !symbol.trim()) {
       return;
     }
 
     const tx = new Transaction(
-      initial.symbol,
+      symbol.trim().toUpperCase(),
       type,
       quantity ?? 0,
       price ?? 0,
@@ -62,12 +64,27 @@ export default function DTransaction({
     <div className="space-y-4">
       <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
         <div className="flex flex-col gap-1">
+          <label className="text-sm text-color-secondary">Symbol</label>
+          <InputText
+            value={symbol}
+            onChange={(e) => setSymbol(e.target.value)}
+            placeholder="e.g., BTC, ETH, DOGE"
+            className="w-full uppercase"
+          />
+        </div>
+
+        <div id="transactionType" className="flex flex-col gap-1">
           <label className="text-sm text-color-secondary">Transaction</label>
           <div className="grid w-fit">
             <Badge className="w-31 !rounded-b-none justify-self-end" value="Transfer" severity="secondary" />
-            <ButtonGroup>
+            <ButtonGroup className="flex flex-nowrap">
                 {typeOptions.map((opt, index) => (
-                    <Button key={opt.key} className={ index > 0 ? "!rounded-t-none" : ""} label={opt.label} value={opt.key} onChange={(e) => setType(opt.key as TransactionTypeOption)} />
+                    <Button key={opt.key} 
+                      className={index > 0 ? "!rounded-t-none" : ""} 
+                      {...(true && {size: "small"})} 
+                      label={opt.label} 
+                      value={opt.key} 
+                      onClick={(e) => setType(opt.key as TransactionTypeOption)} />
                 ))}
             </ButtonGroup>
           </div>

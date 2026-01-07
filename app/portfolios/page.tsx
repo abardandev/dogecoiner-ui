@@ -193,11 +193,6 @@ const btcPriceState = new ChartState();
 
   return (
     <div>
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-2xl font-semibold text-primary-100">Portfolios</h1>
-      </div>
-      <Welcome />
-
       <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
         <section id="btc" className="col-span-1">
           <Card title="BTC Portfolio" className="bg-surface-card">

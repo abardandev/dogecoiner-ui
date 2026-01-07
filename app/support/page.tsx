@@ -7,7 +7,7 @@ export default function Support() {
         <h1 className="text-2xl font-semibold text-primary-100">Support</h1>
       </div>
       <div className="flex flex-wrap items-center justify-center">
-        <Image alt="big wow" src="/favicon.svg" width="512" height="512" />
+        <Image alt="big wow" src="/favicon/favicon.svg" width="512" height="512" />
         
       </div>
     </main>

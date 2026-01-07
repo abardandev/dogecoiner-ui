@@ -30,8 +30,13 @@ import {
 } from '../src/types/ChartDisplay';
 import { Transaction } from '../src/types/Transaction';
 import { Portfolio } from '@/src/types/Portfolio';
+import DogeClicker from '@/src/controls/DogeClicker';
+import PortfolioSummary from '@/src/controls/PortfolioSummary';
+import AddPortfolios from '@/src/controls/AddPortfolio';
+import { usePortfolio } from '@/src/context/PortfolioContext';
 
 export default function Dashboard() {
+  const { portfolios } = usePortfolio();
   const btcPriceState = new ChartState();
   const ethPriceState = new ChartState();
   const solPriceState = new ChartState();
@@ -178,8 +183,36 @@ export default function Dashboard() {
   );
 
   return (
-    <section id="compare" className="mb-4">
-      <Card title="Compare Portfolio" className="bg-surface-card">
+    <section id="compare" className="mb-4 grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 gap-4">
+      <div className="md:row-span-2 mb-4">
+        <DogeClicker className="h-40 md:h-full" />
+      </div>
+      {portfolios.map(portfolio => (
+            <PortfolioSummary
+              className='xs:col-span-1'
+              key={portfolio.portfolioId}
+              portfolioId={portfolio.portfolioId}
+              portfolioName={portfolio.portfolioName}
+              portfolioValue={portfolio.portfolioValue}
+            />
+          ))}
+          <AddPortfolios className='xs:col-span-1 lg:hidden' />
+      {/* {portfolios.length === 0 ? (
+        <AddPortfolios className="xs:col-span-1 sm:col-span-2" />
+      ) : (
+        <>
+          {portfolios.map(portfolio => (
+            <PortfolioSummary
+              key={portfolio.portfolioId}
+              portfolioId={portfolio.portfolioId}
+              portfolioName={portfolio.portfolioName}
+              portfolioValue={portfolio.portfolioValue}
+            />
+          ))}
+          <AddPortfolios className="xs:col-span-1 sm:col-span-2" />
+        </>
+      )} */}
+      {/* <Card title="Compare Portfolio" className="bg-surface-card xs:col-span-2 sm:col-span-3">
         <h2 className="h-borders mb-1 font-semibold">ETH vs BTC</h2>
         <DPortfolioChart
           state={compState}
@@ -220,7 +253,7 @@ export default function Dashboard() {
             />
           </DataTable>
         </div>
-      </Card>
+      </Card> */}
     </section>
   );
 }
