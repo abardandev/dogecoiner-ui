@@ -212,7 +212,9 @@ export default function Dashboard() {
           <AddPortfolios className="xs:col-span-1 sm:col-span-2" />
         </>
       )} */}
-      {/* <Card title="Compare Portfolio" className="bg-surface-card xs:col-span-2 sm:col-span-3">
+
+      {portfolios.length > 0 && (
+      <Card title="Compare Portfolio" className="bg-surface-card xs:col-span-2 sm:col-span-3">
         <h2 className="h-borders mb-1 font-semibold">ETH vs BTC</h2>
         <DPortfolioChart
           state={compState}
@@ -253,7 +255,7 @@ export default function Dashboard() {
             />
           </DataTable>
         </div>
-      </Card> */}
+      </Card>)}
     </section>
   );
 }
