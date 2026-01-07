@@ -1476,21 +1476,21 @@ export let lineData = toLineData(data);
 export const transactions: Transaction[] = [
   {
     symbol: "ETHUSDT",
-    transaction: "buy",
+    type: "buy",
     amount: 0.9857,
     price: 2970.86,
     date: "2024-05-01"
   },
   {
     symbol: "ETHUSDT",
-    transaction: "buy",
+    type: "buy",
     amount: 1.4182,
     price: 3333.81,
     date: "2025-01-01"
   },
   {
     symbol: "ETHUSDT",
-    transaction: "buy",
+    type: "buy",
     amount: 9.1524,
     price: 1800,
     date: "2025-03-30"

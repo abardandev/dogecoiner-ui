@@ -25,7 +25,7 @@ export default function DTransaction({
 }: DTransactionProps) {
   const [symbol, setSymbol] = useState<string>(initial?.symbol ?? '');
   const [type, setType] = useState<TransactionTypeOption>(
-    (initial?.transaction as TransactionTypeOption) ?? 'buy',
+    (initial?.type as TransactionTypeOption) ?? 'buy',
   );
   const [quantity, setQuantity] = useState<number>(initial?.amount ?? 0);
   const [price, setPrice] = useState<number>(initial?.price ?? 0);
@@ -77,7 +77,9 @@ export default function DTransaction({
           <label className="text-sm text-color-secondary">Transaction</label>
           <div className="grid w-fit">
             <Badge className="w-31 !rounded-b-none justify-self-end" value="Transfer" severity="secondary" />
-            <ButtonGroup className="flex flex-nowrap">
+            <ButtonGroup pt={{
+              root: { className:"flex flex-nowrap" }
+            }}>
                 {typeOptions.map((opt, index) => (
                     <Button key={opt.key} 
                       className={index > 0 ? "!rounded-t-none" : ""} 
