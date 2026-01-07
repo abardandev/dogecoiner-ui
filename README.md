@@ -42,6 +42,12 @@ Since React / Next.js is a full client/server on its own, I've opted to deploy t
 
 `https://dogecoiner.punksterinc.com`
 
+The UI allows Google login with NextAuth.js.
+
+- users login with Google in the UI
+- NextAuth generates its own JWE cookies that last 1 month
+- auth cookies are proxied to the API and used as secure user sessions
+
 ## Features
 
 The UI has these features:
