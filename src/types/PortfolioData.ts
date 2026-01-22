@@ -48,7 +48,8 @@ export class PortfolioData {
     let portfolio: PortfolioItem[] = [];
     let last = new PortfolioItem();
 
-    for (let i in transactions) {
+    const sorted = transactions.sort((a, b) => a.date.localeCompare(b.date));
+    for (let i in sorted) {
       let item = transactions[i];
       portfolio.push({
         amount: last.amount + item.amount,

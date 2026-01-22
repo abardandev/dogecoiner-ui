@@ -6,9 +6,30 @@ import { Button } from 'primereact/button';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import DTransaction from '@/src/controls/DTransaction';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Transaction } from '@/src/types/Transaction';
 import Portfolios from '@/app/portfolios/page';
+import DPortfolioChart from '@/src/controls/DPortfolioChart';
+import { 
+  priceChart1kOptions, 
+  priceChartOptions, 
+  priceChartSmOptions, 
+  priceChartXsmOptions 
+} from '@/src/types/ChartOptions';
+import { PortfolioData } from '@/src/types/PortfolioData';
+import { ChartState } from '@/src/types/ChartState';
+import { apiClient } from '@/src/api/client/dogecoiner-ui-api-client';
+import { ChartItem } from '@/src/types/ChartItem';
+import { List } from 'linqts';
+
+import {
+  lineData as btcLineData
+} from '@/src/data/btc-w-data';
+
+import {
+  lineData as ethLineData
+} from '@data/eth-w-data';
+
 
 export default function PortfolioDetail() {
   const params = useParams();
@@ -17,7 +38,7 @@ export default function PortfolioDetail() {
   const { getPortfolio, addTransaction, removeTransaction } = usePortfolio();
   const [showTransactionForm, setShowTransactionForm] = useState(false);
 
-  const portfolio = getPortfolio(portfolioId);
+  let portfolio = getPortfolio(portfolioId);
 
   if (!portfolio) {
     return (
@@ -39,6 +60,7 @@ export default function PortfolioDetail() {
   const handleSaveTransaction = (tx: Transaction) => {
     addTransaction(portfolioId, tx);
     setShowTransactionForm(false);
+    mergeLineData();
   };
 
   const handleCancelTransaction = () => {
@@ -74,6 +96,62 @@ export default function PortfolioDetail() {
       />
     );
   };
+  
+  const btcPriceState = new ChartState();
+  const ethPriceState = new ChartState();
+
+  const portfolioState = new ChartState();
+  
+  useEffect(() => {
+    const fetchPriceData = async (symbol, interval, state) => {
+      return await apiClient.getKlineHistoryLineData(
+        symbol,
+        interval,
+        state,
+      );
+    };
+
+    // sum all line data for the portfolio assets
+    // fetchPriceData('BTCUSDT', 'W', btcPriceState);
+    // fetchPriceData('ETHUSDT', 'W', ethPriceState);
+    
+    if(portfolio.transactions.length > 0) {
+      mergeLineData();
+    }
+  }, []);
+
+  const mergeLineData = () => {
+    const combinedLineData = [];
+
+    const pricesLists = [
+      new List<ChartItem>(btcLineData),
+      new List<ChartItem>(ethLineData)
+    ];
+
+    let times = new List<string>();
+    pricesLists.forEach(p => times.AddRange(p.Select(o => o.time).ToArray()));
+    times = times.Distinct();
+
+    // merge all line data totals
+    for (var i = 0; i < times.Count(); i++) {
+      const time = times.ElementAt(i);
+      
+      let total = 0;
+      for (var x = 0; x < pricesLists.length; x ++) {
+        const priceList = pricesLists[x];
+        const item = priceList.Where(o => o.time == time).FirstOrDefault(null);
+        if (item) {
+          total += item.value;
+        }
+      }
+
+      combinedLineData.push(new ChartItem(total, time));
+    }
+
+    const combinedData = new PortfolioData(portfolio.transactions, combinedLineData).data;
+    portfolioState.setData([combinedData]);
+    portfolioState.setLoading(false);
+  }
 
   return (
     <main className="flex-1 min-w-0 pb-24 pt-6 lg:px-6 lg:py-6 lg:px-8">
@@ -88,6 +166,15 @@ export default function PortfolioDetail() {
           <h1 className="text-3xl font-bold text-primary-100">{portfolio.portfolioName}</h1>
           <p className="text-xl text-primary-200 mt-2">{formatCurrency(portfolio.portfolioValue)}</p>
         </div>
+      </div>
+
+      <div>
+        <h2 className="h-borders mb-1 font-semibold">Portfolio Value</h2>
+        <DPortfolioChart
+          state={portfolioState}
+          chartOptions={priceChart1kOptions}
+          multiScale={false}
+        />
       </div>
 
       <div className="mb-4">

@@ -24,19 +24,18 @@ import { lineData as dogeLineData } from '@data/doge-w-data';
 import { lineData as shibLineData } from '@data/shib-w-data';
 import { PortfolioData } from '@/src/types/PortfolioData';
 import { apiClient } from '@/src/api/client/dogecoiner-ui-api-client';
-import {
-  chartCommonOptions,
-  priceFormatter_usd,
-  priceFormatter_usd_1k,
-  priceFormatter_usd_sm,
-  priceFormatter_usd_xsm,
-} from '@/src/types/ChartDisplay';
 import { Transaction } from '@/src/types/Transaction';
 import { Portfolio } from '@/src/types/Portfolio';
 import Welcome from '@/src/controls/Welcome';
+import { 
+  priceChart1kOptions, 
+  priceChartOptions, 
+  priceChartSmOptions, 
+  priceChartXsmOptions 
+} from '@/src/types/ChartOptions';
 
 export default function Portfolios() {
-const btcPriceState = new ChartState();
+  const btcPriceState = new ChartState();
   const ethPriceState = new ChartState();
   const solPriceState = new ChartState();
   const xrpPriceState = new ChartState();
@@ -49,34 +48,6 @@ const btcPriceState = new ChartState();
 
   const compState = new ChartState();
   const compareAssets = new ChartState();
-
-  const priceChartOptions = {
-    ...chartCommonOptions,
-    localization: {
-      priceFormatter: priceFormatter_usd,
-    },
-  };
-
-  const priceChartSmOptions = {
-    ...chartCommonOptions,
-    localization: {
-      priceFormatter: priceFormatter_usd_sm,
-    },
-  };
-
-  const priceChartXsmOptions = {
-    ...chartCommonOptions,
-    localization: {
-      priceFormatter: priceFormatter_usd_xsm,
-    },
-  };
-
-  const priceChart1kOptions = {
-    ...chartCommonOptions,
-    localization: {
-      priceFormatter: priceFormatter_usd_1k,
-    },
-  };
 
   useEffect(() => {
     const fetchPriceData = async (symbol, interval, state) => {

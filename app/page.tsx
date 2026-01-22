@@ -32,7 +32,7 @@ import { Transaction } from '../src/types/Transaction';
 import { Portfolio } from '@/src/types/Portfolio';
 import DogeClicker from '@/src/controls/DogeClicker';
 import PortfolioSummary from '@/src/controls/PortfolioSummary';
-import AddPortfolios from '@/src/controls/AddPortfolio';
+import AddPortfolio from '@/src/controls/AddPortfolio';
 import { usePortfolio } from '@/src/context/PortfolioContext';
 
 export default function Dashboard() {
@@ -196,7 +196,7 @@ export default function Dashboard() {
               portfolioValue={portfolio.portfolioValue}
             />
           ))}
-          <AddPortfolios className='xs:col-span-1 lg:hidden' />
+          <AddPortfolio className='xs:col-span-1 lg:hidden' />
       {/* {portfolios.length === 0 ? (
         <AddPortfolios className="xs:col-span-1 sm:col-span-2" />
       ) : (

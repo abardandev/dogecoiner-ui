@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { PanelMenu } from 'primereact/panelmenu';
@@ -10,8 +10,9 @@ import { type MenuItem } from 'primereact/menuitem';
 import DHeader from '@/src/controls/DHeader';
 import { usePortfolio } from '@/src/context/PortfolioContext';
 import { Tooltip } from 'primereact/tooltip';
-import AddPortfolios from './AddPortfolio';
+import { OverlayPanel } from 'primereact/overlaypanel';
 import AddPortfolio from './AddPortfolio';
+import AddPortfolioForm from './AddPortfolioForm';
 
 export default function MainLayout({ children }) {
   const { portfolios } = usePortfolio();
@@ -20,6 +21,7 @@ export default function MainLayout({ children }) {
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const currentYear = new Date().getFullYear();
+  const addPortfolioOverlay = useRef(null);
 
   const router = useRouter();
 
@@ -118,11 +120,12 @@ export default function MainLayout({ children }) {
             sidebarCollapsed ? 'w-20 px-2' : 'w-72 px-4'
           }`}
         >
+          {/* collapsed/expanded sidebar */}
           {sidebarCollapsed ? (
             <div className="flex flex-col items-center gap-2">
               {portfolios.map((portfolio) => (
-                <>
-                  <Link key={portfolio.portfolioId} href={`/portfolio/${portfolio.portfolioId}`}>
+                <div key={portfolio.portfolioId}>
+                  <Link href={`/portfolio/${portfolio.portfolioId}`}>
                     <Tooltip target={`.pid-tooltip-${portfolio.portfolioId}`}>
                       <div className="ml-2 flex flex-col">
                         <p>{portfolio.portfolioName}</p>
@@ -139,26 +142,36 @@ export default function MainLayout({ children }) {
                       tooltipOptions={{ position:"right" }}
                     />
                   </Link>
-                </>
+                </div>
               ))}
-                <Tooltip target=".portfolio-add" event="focus" autoHide={false} position="right">
-                  <AddPortfolio />
-                </Tooltip>
-                <Button
-                  icon="pi pi-plus"
-                  text
-                  rounded
-                  aria-label="add portfolio"
-                  className="w-10 h-10 portfolio-add"
-                  style={{ color: 'var(--primary-color)' }}
-                />
+                <div>
+                  <OverlayPanel
+                    ref={addPortfolioOverlay}
+                    style={{ width: '300px' }}
+                  >
+                    <AddPortfolioForm setIsCreating={() => addPortfolioOverlay.current?.hide()} />
+                  </OverlayPanel>
+                  <Button
+                    icon="pi pi-plus"
+                    text
+                    rounded
+                    aria-label="add portfolio"
+                    className="w-10 h-10"
+                    style={{ color: 'var(--primary-color)' }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      addPortfolioOverlay.current?.toggle(e);
+                    }}
+                  />
+                </div>
             </div>
           ) : (
             <div className="flex flex-col gap-2">
               <h3 className="text-sm font-semibold text-primary-100 px-3 mb-2">Portfolios</h3>
               {portfolios.length === 0 ? (
                 <div className="px-3 py-4 text-center text-sm text-primary-300">
-                  <AddPortfolios className="xs:col-span-1 sm:col-span-2" />
+                  <AddPortfolio className="xs:col-span-1 sm:col-span-2" />
                 </div>
               ) : (
                 <>
@@ -174,7 +187,7 @@ export default function MainLayout({ children }) {
                     </Button>
                   </Link>
                 )) }
-                <AddPortfolios className="xs:col-span-1 sm:col-span-2" />
+                <AddPortfolio className="xs:col-span-1 sm:col-span-2" />
                 </>
               )}
             </div>
